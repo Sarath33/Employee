@@ -1,29 +1,55 @@
 import React, {  useEffect, useState } from "react";
-import Nav from './components/nav';
-import Alert from '@material-ui/lab/Alert';
-import { IconButton} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import { v4 as uuidv4 } from 'uuid';
 import { Button, Form, Select } from "react-bootstrap";
+import { IconButton} from '@material-ui/core';
 
+import Nav from './components/nav';
+import queryString from 'query-string';
+import Alert from '@material-ui/lab/Alert';
+import CloseIcon from '@material-ui/icons/Close';
+import {
+  BrowserRouter as Router,
+  Link,
+  useLocation,
+  useParams
+} from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { Checkbox, InputLabel, MenuItem, Paper, TextField } from "@material-ui/core";
 import "./home.css";
-import Gender from './components/gender';
-function Home(props) {
-  const[check,setcheck] = useState(true);
+
+
+export default function Edit(props) {
+  const[check,setcheck] = useState(false);
   const[check1,setcheck1] = useState(false);
   const[open,setOpen] = useState(false);
-const[detail,setdetail] = useState({category:"1",gender: check?"Male":"Female"});
-const lengther = JSON.parse(localStorage.getItem("entries"));
-   useEffect(()=>{
-    let k = localStorage.getItem("opener")
-    if(k == "open")
-    setOpen(true);
+  let {id} =  useParams();
+
+useEffect(()=>{
+
+  if(check == false && check1 == false)
+  make();
+})
+
+const make =()=> ( 
+  profile[0].gender == "Male"?setcheck(true):setcheck1(true)
+)
+
+
+const point = JSON.parse(localStorage.getItem("entries"));
+let profile = point.filter(it=>{
+    if(it.id === id ){
      
-   })
+    return it;
+    };
+});
+
+const[detail,setdetail] = useState({...profile[0]});
+  
+  
+
+    
+   
 const handle = (e)=>{
   if(e.target.name == "gender")
   {
@@ -35,18 +61,19 @@ const handle = (e)=>{
          ))
        
     }
- 
+   
+ const ff = ()=>{
+  <Link to="/display" />
+ }
   return (
     <div>
-    
       <Nav />
-      {open?<Alert action={
+       {open?<Alert action={
             <IconButton
               aria-label="close"
               color="inherit"
               size="small"
               onClick={() => {
-                localStorage.setItem("opener","");
                 setOpen(false);
               }}
             >
@@ -56,52 +83,36 @@ const handle = (e)=>{
         >
           Profile updated
         </Alert>:null}
-      <Paper elevation={3} className="root">
-     <form onSubmit={(e)=>{
-       // e.preventDefault();
-        const k = {...detail,id:uuidv4()}
-        
-        setdetail(k);
-        let it = JSON.parse(localStorage.getItem("entries"));
-        if(it){
-         
-        it = it.concat(k);console.log(it);
-        localStorage.setItem("entries",JSON.stringify(it));
-        localStorage.setItem("opener","open");
-        setOpen(true);
-        }
-        else{
-          localStorage.setItem("entries",JSON.stringify([{id:uuidv4(),...detail}]));
-          let it = JSON.parse(localStorage.getItem("entries"));
-         
-          
-        localStorage.setItem("entries",JSON.stringify(it));
-        }
-      }}>
-        <h1>Add Employee Details</h1>
+    <div style={{paddingTop: 50}}>
+    <Link to="/display" ><Button >Back</Button></Link>
+    </div>
+      <Paper style={{marginTop: 0}} elevation={3} className="root">
+   
+    
+        <h1>update details</h1>
         <div className="row">
           <h3>Name: </h3>
           <TextField type="text"  onChange={handle} value={detail.name} name="name" required/>
          </div>
         <div className="row">
           <h3>Email: </h3>
-          <TextField type="Email" onChange={handle}  value={detail.email}  id="standard-basic" name="email" required/>
+          <TextField type="Email" onChange={handle}  id="standard-basic" value={detail.email} name="email" required/>
       
         </div>
         <div className="row">
           <h3>Contact: </h3>
-          <TextField type="contact"  onChange={handle} value={detail.contact} id="standard-basic" name="contact" required/>
+          <TextField type="contact"  onChange={handle} id="standard-basic" value={detail.contact} name="contact" required/>
         </div>
         <div className="row">
           <h3>Category: </h3>
-          <Form.Control  as="select" onChange={handle} name="category" custom style={{width: 180,height:50}}> 
+          <Form.Control  as="select" onChange={handle} name="category" value={detail.category} custom style={{width: 180,height:50}}> 
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
       </Form.Control>
         </div>
-        <div className="gender row">
-             <h3>Gender: </h3>
+        <div className="gender row" >
+             <h3>Gender: {make}</h3>
              <div style={{display: 'flex',justifyContent:'left'}}>
              <Checkbox name = "gender" onChange={(e)=>{
                  if(check1){setcheck1(!check1)}
@@ -119,13 +130,23 @@ const handle = (e)=>{
             
         </div>
 
-        <Button  type="submit" >submit</Button>
-        </form>
+      <Button onClick={()=>{setOpen(true);
+          let pp =  point.map(it=>{
+            if(it.id == id)
+            return detail;
+            else
+            return it;
+            
+          });
+          localStorage.setItem("entries",JSON.stringify(pp));
+          
+        }} type="submit" >update</Button>
+        
       </Paper>
     
-    <h4>Employees added: {lengther.length} </h4>
+   
     </div>
   );
 }
 
-export default Home;
+

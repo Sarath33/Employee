@@ -1,0 +1,33 @@
+.paper{
+    width: 450px;
+    margin: 0;
+   margin-left: 25%;
+    margin-top: 5%;
+    float: left;
+}
+.name{
+    width: 160px;
+    float: left;
+}
+
+.butto{
+    width: 140px;
+    float: right;
+    margin-top: -10px;
+    
+}
+
+.content{
+
+    padding: 20px;
+}
+.profile{
+    width: 400px;
+    height: 330px;
+    float: right;
+    margin-top: 5%;
+    margin-right: 8%;
+    padding: 40px;
+    background-color: rgb(202, 170, 231);
+      border-radius: 1rem;
+}
