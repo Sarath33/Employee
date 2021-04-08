@@ -1,6 +1,6 @@
 import { AppBar, Button, IconButton, Toolbar, Typography } from '@material-ui/core';
 import {Link} from 'react-router-dom';
-import MenuIcon from '@material-ui/core/menu'
+
 import React from 'react';
 
 export default function Nav()
