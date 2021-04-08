@@ -17,7 +17,7 @@ function Home(props) {
   const[check1,setcheck1] = useState(false);
   const[open,setOpen] = useState(false);
 const[detail,setdetail] = useState({category:"1",gender: check?"Male":"Female"});
-const lengther = JSON.parse(localStorage.getItem("entries"));
+//const lengther = JSON.parse(localStorage.getItem("entries"));
    useEffect(()=>{
     let k = localStorage.getItem("opener")
     if(k == "open")
@@ -123,7 +123,7 @@ const handle = (e)=>{
         </form>
       </Paper>
     
-    <h4>Employees added: {lengther.length} </h4>
+    <h4>Employees added: </h4>
     </div>
   );
 }
